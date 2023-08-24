@@ -76,7 +76,7 @@ router.delete("/:id", async (req, res) => {
     //find connected book to this author
     // const connectedBook = await Book.find({ author: id });
     // if (connectedBook.length) throw new Error({ message: "Connected to book" });
-    author.deleteOne();
+    author.remove();
     res.redirect(`/authors`);
   } catch (err) {
     if (author == null) return res.redirect("/");

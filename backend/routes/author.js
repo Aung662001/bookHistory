@@ -36,9 +36,21 @@ router.post("/", async (req, res) => {
     });
   }
 });
-router.get("/:id", (req, res) => {
-  res.send("show author" + req.params.id);
+//show author
+router.get("/:id", async (req, res) => {
+  try {
+    const author = await Author.findById(req.params.id);
+    const books = await Book.find({ author: req.params.id }).limit(6).exec();
+    res.render("author/show", {
+      author,
+      books,
+    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
 });
+
 router.get("/:id/edit", async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
@@ -73,12 +85,15 @@ router.delete("/:id", async (req, res) => {
   let id = req.params.id;
   try {
     author = await Author.findById(id);
-    //find connected book to this author
-    // const connectedBook = await Book.find({ author: id });
-    // if (connectedBook.length) throw new Error({ message: "Connected to book" });
-    author.remove();
+    // find connected book to this author
+    const connectedBook = await Book.find({ author: id });
+    if (connectedBook.length)
+      throw new Error("Connected to book, Can't Note delete this author");
+
+    await author.deleteOne();
     res.redirect(`/authors`);
   } catch (err) {
+    console.log(err);
     if (author == null) return res.redirect("/");
     res.redirect(`/authors/${id}`);
   }

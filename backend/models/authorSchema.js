@@ -6,15 +6,15 @@ const authorSchema = new mongoose.Schema({
     required: true,
   },
 });
-authorSchema.pre("remove", function (next) {
-  Book.find({ author: this.id }, (error, data) => {
-    if (error) {
-      next(error);
-    } else if (data.length) {
-      next(new Error("The Author Has Connected Book."));
-    } else {
-      next();
-    }
-  });
-});
+// authorSchema.pre("deleteOne", function (next) {
+//   Book.find({ author: this.id }, (error, data) => {
+//     if (error) {
+//       next(error);
+//     } else if (data.length) {
+//       next(new Error("The Author Has Connected Book."));
+//     } else {
+//       next();
+//     }
+//   });
+// });
 module.exports = mongoose.model("Author", authorSchema);

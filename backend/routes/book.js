@@ -72,6 +72,16 @@ router.post(
 //     if (err) console.log(err);
 //   });
 // };
+router.get("/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate("author").exec();
+    console.log(book);
+    res.render("books/show", { book });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
 async function renderNewPage(res, book, hasError = false) {
   try {
     const authors = await Author.find({});

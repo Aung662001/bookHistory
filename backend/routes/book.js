@@ -40,6 +40,7 @@ router.get("/", async (req, res) => {
 router.get("/new", async (req, res) => {
   renderNewPage(res, new Book());
 });
+//create a book
 router.post(
   "/",
   // upload.single("cover"),
@@ -57,7 +58,7 @@ router.post(
     saveImage(book, req.body.cover);
     try {
       const newBook = await book.save();
-      res.redirect("books");
+      res.redirect(`books/${newBook.id}`);
     } catch (err) {
       // console.log(err);
       // if (book.coverImageName != null) {
@@ -72,17 +73,73 @@ router.post(
 //     if (err) console.log(err);
 //   });
 // };
+//show a single book page
 router.get("/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate("author").exec();
-    console.log(book);
     res.render("books/show", { book });
   } catch (err) {
     console.log(err);
     res.redirect("/");
   }
 });
+//edit book route
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    renderEditPage(res, book);
+  } catch {
+    res.redirect("/");
+  }
+});
+//update book
+router.put("/:id", async (req, res) => {
+  let book;
+  try {
+    book = await Book.findById(req.params.id);
+    book.title = req.body.title;
+    book.author = req.body.author;
+    book.publishDate = req.body.publishDate;
+    book.pageCount = req.body.pageCount;
+    book.description = req.body.description;
+    if (req.body.cover != null && req.body.cover != "") {
+      saveImage(req.body.cover);
+    }
+    await book.save();
+    res.redirect(`/books/${book.id}`);
+  } catch {
+    if (book !== null) {
+      renderEditPage(res, book, true);
+    } else {
+      res.redirect("/");
+    }
+  }
+});
+//delete book
+router.delete("/:id", async (req, res) => {
+  let book;
+  try {
+    book = await Book.findById(req.params.id);
+    await book.deleteOne();
+    res.redirect("/books");
+  } catch (err) {
+    console.log(err);
+    if (book == null)
+      return res.render("books/show", {
+        book,
+        errorMessage: "Can't Remove Book",
+      });
+    res.redirect(`/`);
+  }
+});
 async function renderNewPage(res, book, hasError = false) {
+  renderPage(res, book, "new", hasError);
+}
+function renderEditPage(res, book, hasError = false) {
+  renderPage(res, book, "edit", hasError);
+}
+
+async function renderPage(res, book, form, hasError) {
   try {
     const authors = await Author.find({});
     const params = {
@@ -90,9 +147,13 @@ async function renderNewPage(res, book, hasError = false) {
       book,
     };
     if (hasError) {
-      params.errorMessage = "Error at creating book!";
+      if (form === "edit") {
+        params.errorMessage = "Error at updatint book!";
+      } else {
+        params.errorMessage = "Error at creating book!";
+      }
     }
-    res.render("books/new", params);
+    res.render(`books/${form}`, params);
   } catch (err) {
     console.log(err, "renderNewPage");
     res.redirect("books");

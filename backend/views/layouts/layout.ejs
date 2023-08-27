@@ -31,10 +31,12 @@
     <link rel="stylesheet" href="../../stylesheets/main.css" />
   </head>
   <body>
-    <br />
-    <%- include("../partials/header") %><br />
-    <%- include("../partials/errorMessage.ejs") %> <br />
-    <%- body%>
+    <div class="container">
+      <%- include("../partials/header") %>
+      <div class="inner-container">
+        <%- include("../partials/errorMessage.ejs") %> <%- body%>
+      </div>
+    </div>
     <br />
   </body>
 </html>

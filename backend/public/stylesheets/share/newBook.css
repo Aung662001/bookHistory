@@ -1,0 +1,19 @@
+select {
+  margin: 1rem 0.5rem;
+  padding: 0.5rem;
+  background-color: rgb(48, 48, 172);
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+.filepond {
+  width: 150px;
+  height: 200px;
+}
+.filepond--drop-label {
+  border-radius: 5px;
+  color: var(--color-text-light);
+  background-color: rgb(48, 48, 172);
+  height: inherit;
+}
+.filepond--pannel {
+}

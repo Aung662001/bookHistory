@@ -1,0 +1,24 @@
+.btn {
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  background-color: rgb(121, 122, 67);
+  margin: 1rem 0.5rem;
+  font-size: 1rem;
+}
+.btn-primary:hover {
+  background-color: rgb(170, 171, 88);
+}
+.btn-danger {
+  background-color: rgb(121, 73, 73);
+}
+.btn:hover {
+  scale: 1.1;
+}
+.btn-danger:hover {
+  background-color: rgb(138, 60, 60);
+}
+.filepond {
+  width: 150px;
+  height: 200px;
+}

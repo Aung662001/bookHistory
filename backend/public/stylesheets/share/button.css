@@ -2,23 +2,20 @@
   text-decoration: none;
   padding: 0.3rem 0.5rem;
   border-radius: 5px;
-  background-color: rgb(121, 122, 67);
+  background-color: var(--btn-color-primary);
   margin: 1rem 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
 }
 .btn-primary:hover {
-  background-color: rgb(170, 171, 88);
+  background-color: var(--btn-color-primary-hover);
 }
 .btn-danger {
-  background-color: rgb(121, 73, 73);
+  background-color: var(--btn-color-danger);
 }
 .btn:hover {
   scale: 1.1;
 }
 .btn-danger:hover {
-  background-color: rgb(138, 60, 60);
-}
-.filepond {
-  width: 150px;
-  height: 200px;
+  background-color: var(--btn-color-danger-hover);
 }

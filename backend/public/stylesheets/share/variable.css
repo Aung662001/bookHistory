@@ -6,4 +6,9 @@
   --title-font-size: 30px;
   --title-font-weight: 900;
   --hover-color: hsl(200, 100%, 10%);
+  --btn-color-primary: rgb(121, 122, 67);
+  --btn-color-primary-hover: rgb(170, 171, 88);
+  --btn-color-danger: rgb(121, 73, 73);
+  --btn-color-danger-hover: rgb(138, 60, 60);
+  --input-field-bg-color: rgb(48, 48, 172);
 }
